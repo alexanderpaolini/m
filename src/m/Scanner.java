@@ -1,5 +1,6 @@
 package m;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import static m.TokenType.*;
@@ -13,225 +14,233 @@ class Scanner {
     private int current = 0;
     private int line = 1;
 
-    static{
+    static {
         keywords = new HashMap<>();
-        keywords.put("and",    AND);
-        keywords.put("class",  CLASS);
-        keywords.put("else",   ELSE);
-        keywords.put("false",  FALSE);
-        keywords.put("for",    FOR);
-        keywords.put("fun",    FUN);
-        keywords.put("if",     IF);
-        keywords.put("nodef",  NODEF);
-        keywords.put("or",     OR);
+        keywords.put("and", AND);
+        keywords.put("class", CLASS);
+        keywords.put("else", ELSE);
+        keywords.put("false", FALSE);
+        keywords.put("for", FOR);
+        keywords.put("fun", FUN);
+        keywords.put("if", IF);
+        keywords.put("nodef", NODEF);
+        keywords.put("or", OR);
         //keywords.put("print",  PRINT);
         keywords.put("return", RETURN);
-        keywords.put("super",  SUPER);
-        keywords.put("this",   THIS);
-        keywords.put("true",   TRUE);
-        keywords.put("var",    VAR);
-        keywords.put("while",  WHILE);
+        keywords.put("super", SUPER);
+        keywords.put("this", THIS);
+        keywords.put("true", TRUE);
+        keywords.put("var", VAR);
+        keywords.put("while", WHILE);
     }
 
-    Scanner(String source){
+    Scanner(String source) {
         this.source = source;
     }
 
-    List<Token> scanTokens(){
-        while(!isAtEnd()){
+    List<Token> scanTokens() {
+        while (!isAtEnd()) {
             start = current;
             scanToken();
         }
 
         tokens.add(new Token(EOF, "", null, line));
+
         return tokens;
     }
 
-    private boolean isAtEnd(){
+    private boolean isAtEnd() {
         return current >= source.length();
     }
 
-    private char advance(){
+    private char advance() {
         return source.charAt(current++);
     }
 
-    private void addToken(TokenType type){
+    private void addToken(TokenType type) {
         addToken(type, null);
     }
 
-    private void addToken(TokenType type, Object literal){
+    private void addToken(TokenType type, Object literal) {
         String text = source.substring(start, current);
         tokens.add(new Token(type, text, literal, line));
     }
 
-    private void scanToken(){
+    private void scanToken() {
 
         char c = advance();
 
-        switch (c){
+        switch (c) {
 
-            case '(': addToken(LEFT_PAREN);
-            break;
+            case '(':
+                addToken(LEFT_PAREN);
+                break;
 
-            case ')': addToken(RIGHT_PAREN);
-            break;
+            case ')':
+                addToken(RIGHT_PAREN);
+                break;
 
-            case '{': addToken(LEFT_BRACE);
-            break;
+            case '{':
+                addToken(LEFT_BRACE);
+                break;
 
-            case '}': addToken(RIGHT_BRACE);
-            break;
+            case '}':
+                addToken(RIGHT_BRACE);
+                break;
 
-            case ',': addToken(COMMA);
-            break;
+            case ',':
+                addToken(COMMA);
+                break;
 
-            case '.': addToken(DOT);
-            break;
+            case '.':
+                addToken(DOT);
+                break;
 
-            case '-': addToken(MINUS);
-            break;
+            case '-':
+                addToken(MINUS);
+                break;
 
-            case '+': addToken(PLUS);
-            break;
+            case '+':
+                addToken(PLUS);
+                break;
 
-            case ';': addToken(SEMICOLON);
-            break;
+            case ';':
+                addToken(SEMICOLON);
+                break;
 
-            case '*': addToken(match('*') ? POWER : STAR);
-            break;
+            case '*':
+                addToken(match('*') ? POWER : STAR);
+                break;
 
-            case '/': addToken(SLASH);
-            break;
+            case '/':
+                addToken(SLASH);
+                break;
 
-            case '!': addToken(match('=') ? BANG_EQUAL : BANG);
-            break;
+            case '!':
+                addToken(match('=') ? BANG_EQUAL : BANG);
+                break;
 
-            case '=': addToken(match('=') ? EQUAL_EQUAL : EQUAL);
-            break;
+            case '=':
+                addToken(match('=') ? EQUAL_EQUAL : EQUAL);
+                break;
 
-            case '<': addToken(match('=') ? LESS_EQUAL : LESS);
-            break;
+            case '<':
+                addToken(match('=') ? LESS_EQUAL : LESS);
+                break;
 
             case '>':
-                if(match('>')){
+                if (match('>')) {
                     addToken(PRINT);
-                }
-                else if(match('=')){
-                        addToken(GREATER_EQUAL);
-                }
-                else{
+                } else if (match('=')) {
+                    addToken(GREATER_EQUAL);
+                } else {
                     addToken(GREATER);
                 }
-            break;
+                break;
 
             case '#':
-                while(peek() != '\n' && !isAtEnd()){
+                while (peek() != '\n' && !isAtEnd()) {
                     advance();
                 }
-            break;
+                break;
 
             case ' ':
             case '\r':
             case '\t':
-            break;
+                break;
 
             case '\n':
                 line++;
-            break;
+                break;
 
-            case '"': string();
-            break;
+            case '"':
+                string();
+                break;
 
             default:
-                if(isDigit(c)){
+                if (isDigit(c)) {
                     number();
-                }
-                else if(isAlpha(c)){
+                } else if (isAlpha(c)) {
                     identifier();
-                }
-                else{
+                } else {
                     M.error(line, "Unexpected Character");
                 }
-            break;
+                break;
         }
     }
 
-    private void identifier(){
+    private void identifier() {
 
-        while(isAlphaNumeric(peek())){
+        while (isAlphaNumeric(peek())) {
             advance();
         }
 
         String text = source.substring(start, current);
 
         TokenType type = keywords.get(text);
-        if(type == null){
+        if (type == null) {
             type = IDENTIFIER;
         }
 
         addToken(type);
-
     }
 
     private void string() {
-       while(peek() != '"' && !isAtEnd()){
-           advance();
-       }
+        while (peek() != '"' && !isAtEnd()) {
+            advance();
+        }
 
-       if(isAtEnd()){
-           M.error(line, "String was not terminated");
-       }
+        if (isAtEnd()) {
+            M.error(line, "String was not terminated");
+        }
 
-       advance();
+        advance();
 
-       String value = source.substring(start + 1 , current - 1);
-       addToken(STRING, value);
+        String value = source.substring(start + 1, current - 1);
+        addToken(STRING, value);
     }
 
-    private boolean match(char expected){
+    private boolean match(char expected) {
         if (isAtEnd()) return false;
-        if(source.charAt(current) != expected) return false;
+        if (source.charAt(current) != expected) return false;
 
         current++;
         return true;
     }
 
-    private char peek(){
-        if(isAtEnd()) return '\0';
+    private char peek() {
+        if (isAtEnd()) return '\0';
         return source.charAt(current);
     }
 
-    private boolean isDigit(char c){
+    private boolean isDigit(char c) {
         return c >= '0' && c <= '9';
     }
 
-    private void number(){
-        while(isDigit(peek())){
+    private void number() {
+        while (isDigit(peek())) {
             advance();
         }
-        if(peek() == '.' && isDigit(peekNext())){
-            advance();
-
-            while(isDigit(peek())){
+        if (peek() == '.' && isDigit(peekNext())) {
+            do {
                 advance();
-            }
+            } while (isDigit(peek()));
         }
-        addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
+        addToken(NUMBER, BigDecimal.valueOf(Double.parseDouble(source.substring(start, current))));
     }
 
-    private char peekNext(){
-        if(current + 1 >= source.length()) {
+    private char peekNext() {
+        if (current + 1 >= source.length()) {
             return '\0';
         }
         return source.charAt(current + 1);
     }
 
-    private boolean isAlpha(char c){
+    private boolean isAlpha(char c) {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
     }
 
-    private boolean isAlphaNumeric(char c){
+    private boolean isAlphaNumeric(char c) {
         return isAlpha(c) || isDigit(c);
     }
-
 }
