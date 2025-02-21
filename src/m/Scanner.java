@@ -24,7 +24,7 @@ class Scanner {
         keywords.put("if",     IF);
         keywords.put("nodef",  NODEF);
         keywords.put("or",     OR);
-        keywords.put("print",  PRINT);
+        //keywords.put("print",  PRINT);
         keywords.put("return", RETURN);
         keywords.put("super",  SUPER);
         keywords.put("this",   THIS);
@@ -115,7 +115,6 @@ class Scanner {
             case '>':
                 if(match('>')){
                     addToken(PRINT);
-                    //i need to figure out how to do this one properly
                 }
                 else if(match('=')){
                         addToken(GREATER_EQUAL);
