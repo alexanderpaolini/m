@@ -1,9 +1,5 @@
 package m;
 
-enum BinaryOperator {
-    PLUS, MINUS, MULTIPLY, DIVIDE
-}
-
 public class BinaryExpression extends Expression {
     Expression left;
     Expression right;

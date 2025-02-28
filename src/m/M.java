@@ -9,6 +9,9 @@ import java.nio.file.*; //Files, Paths
 public class M {
     static boolean hadError = false;
 
+    static boolean SHOW_TOKENS = true;
+    static boolean SHOW_AST = true;
+
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
             System.out.println("Usage: M [script]");
@@ -44,12 +47,16 @@ public class M {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
+        if (SHOW_TOKENS)
+            for (Token token : tokens) {
+                System.out.println(token);
+            }
+
         Parser parser = new Parser(tokens);
         Program prog = parser.parseTokens();
 
-        for (Statement statement : prog.statements) {
-            System.out.println(statement);
-        }
+        if (SHOW_AST)
+            System.out.println(prog);
     }
 
     static void error(int line, String message) {

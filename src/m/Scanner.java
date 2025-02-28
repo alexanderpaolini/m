@@ -163,7 +163,7 @@ class Scanner {
                 } else if (isAlpha(c)) {
                     identifier();
                 } else {
-                    M.error(line, "Unexpected Character");
+                    addToken(INVALID_TOKEN);
                 }
                 break;
         }
