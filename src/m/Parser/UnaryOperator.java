@@ -1,4 +1,4 @@
-package m;
+package m.Parser;
 
 public enum UnaryOperator {
     NOT, NEGATE

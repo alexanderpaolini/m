@@ -1,9 +1,9 @@
-package m;
+package m.Parser;
 
 public class Identifier extends Expression {
     String name;
 
-    Identifier (String name) {
+    public Identifier(String name) {
         this.name = name;
     }
 

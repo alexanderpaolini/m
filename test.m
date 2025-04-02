@@ -1,3 +1,9 @@
 # This is a comment
-a = 7
->> a
+fn g(): {
+  g()
+  1
+}
+
+a = g()
+
+b = [a, b, c, [a, b, c]]

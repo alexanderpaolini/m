@@ -1,10 +1,10 @@
-package m;
+package m.Parser;
 
-public class AssignmentStatement extends Statement {
-    private final Expression right;
+public class AssignmentStatement extends ValueProducingStatement {
+    private final ValueProducingStatement right;
     private final Identifier identifier;
 
-    AssignmentStatement(Identifier identifier, Expression right) {
+    public AssignmentStatement(Identifier identifier, ValueProducingStatement right) {
         this.right = right;
         this.identifier = identifier;
     }

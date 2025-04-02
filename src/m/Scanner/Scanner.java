@@ -1,11 +1,13 @@
-package m;
+package m.Scanner;
+
+import m.M;
 
 import java.math.BigDecimal;
 import java.util.*;
 
-import static m.TokenType.*;
+import static m.Scanner.TokenType.*;
 
-class Scanner {
+public class Scanner {
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
     private static final Map<String, TokenType> keywords;
@@ -26,6 +28,7 @@ class Scanner {
         keywords.put("nodef", NODEF);
         keywords.put("or", OR);
         //keywords.put("print",  PRINT);
+        keywords.put("fn", FN);
         keywords.put("return", RETURN);
         keywords.put("super", SUPER);
         keywords.put("this", THIS);
@@ -34,11 +37,11 @@ class Scanner {
         keywords.put("while", WHILE);
     }
 
-    Scanner(String source) {
+    public Scanner(String source) {
         this.source = source;
     }
 
-    List<Token> scanTokens() {
+    public List<Token> scanTokens() {
         while (!isAtEnd()) {
             start = current;
             scanToken();
@@ -80,6 +83,14 @@ class Scanner {
                 addToken(RIGHT_PAREN);
                 break;
 
+            case '[':
+                addToken(LEFT_BRACKET);
+                break;
+
+            case ']':
+                addToken(RIGHT_BRACKET);
+                break;
+
             case '{':
                 addToken(LEFT_BRACE);
                 break;
@@ -102,6 +113,10 @@ class Scanner {
 
             case '+':
                 addToken(PLUS);
+                break;
+
+            case ':':
+                addToken(COLON);
                 break;
 
             case ';':

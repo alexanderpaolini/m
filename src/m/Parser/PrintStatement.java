@@ -1,9 +1,9 @@
-package m;
+package m.Parser;
 
 public class PrintStatement extends Statement {
     private final ValueProducingStatement value;
 
-    PrintStatement(ValueProducingStatement value) {
+    public PrintStatement(ValueProducingStatement value) {
         this.value = value;
     }
 

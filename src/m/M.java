@@ -1,10 +1,13 @@
 package m;
 
+import m.Parser.Parser;
+import m.Parser.Program;
+import m.Scanner.Token;
+
 import java.io.*; //BufferedReader, IOException, InputStreamReader
 import java.util.*; //List
 import java.nio.charset.*; //Charset
 import java.nio.file.*; //Files, Paths
-
 
 public class M {
     static boolean hadError = false;
@@ -44,7 +47,7 @@ public class M {
     }
 
     private static void run(String source) {
-        Scanner scanner = new Scanner(source);
+        m.Scanner.Scanner scanner = new m.Scanner.Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
         if (SHOW_TOKENS)
@@ -59,11 +62,11 @@ public class M {
             System.out.println(prog);
     }
 
-    static void error(int line, String message) {
+    public static void error(int line, String message) {
         report(line, "", message);
     }
 
-    private static void report(int line, String where, String message) {
+    public static void report(int line, String where, String message) {
         System.err.println("[line " + line + "] Error" + where + ": " + message);
         hadError = true;
     }
