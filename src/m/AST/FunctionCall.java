@@ -16,13 +16,14 @@ public class FunctionCall extends Expression {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("FunctionCall{");
-        sb.append(name);
-        sb.append("\n");
-        for (Expression p : parameters) {
-            sb.append(p);
+        sb.append("FunctionCall{\n");
+        sb.append(name.toString().indent(2));
+        sb.append("  Parameters{\n");
+        for (Expression param : parameters) {
+            sb.append(param.toString().indent(4));
         }
-        sb.append("}");
+        sb.append("  }\n");
+        sb.append("}\n");
         return sb.toString();
     }
 

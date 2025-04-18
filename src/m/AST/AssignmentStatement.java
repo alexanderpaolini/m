@@ -13,9 +13,15 @@ public class AssignmentStatement extends ValueProducingStatement {
 
     @Override
     public String toString() {
-        return "AssignmentStatement{" + identifier + ", " + right + "}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("AssignmentStatement{\n");
+        sb.append(identifier.toString().indent(2));
+        sb.append(right.toString().indent(2));
+        sb.append("}");
+        return sb.toString();
     }
 
+    @Override
     public void execute(Environment env) {
         this.right.execute(env);
 

@@ -31,13 +31,13 @@ public class Parser {
         return tokens.get(current++);
     }
 
-    Token consume(TokenType[] types) throws Exception {
+    Token consume(TokenType[] types) throws UnexpectedTokenException {
         match(types);
 
         return consume();
     }
 
-    void match(TokenType[] types) throws Exception {
+    void match(TokenType[] types) throws UnexpectedTokenException {
         Token tok = peek();
         for (TokenType type : types) {
             if (tok.type == type) {
@@ -52,17 +52,17 @@ public class Parser {
         }
     }
 
-    m.AST.Number parseNumber() throws Exception {
+    m.AST.Number parseNumber() throws UnexpectedTokenException {
         Token cur = consume(new TokenType[]{TokenType.NUMBER});
         return new Number((BigDecimal) cur.literal);
     }
 
-    Expression parseFactor() throws Exception {
-        Expression node = parseUnaryExpression();
+    Expression parseFactor() throws UnexpectedTokenException {
+        Expression node = parseExponent();
 
         while (peek().type == TokenType.STAR || peek().type == TokenType.SLASH) {
             Token tok = consume(); // * or /
-            Expression right = parseUnaryExpression();
+            Expression right = parseExponent();
             node = new BinaryExpression(node, right,
                     tok.type == TokenType.STAR ? BinaryOperator.MULTIPLY : BinaryOperator.DIVIDE);
         }
@@ -70,14 +70,26 @@ public class Parser {
         return node;
     }
 
-    Expression parseUnaryExpression() throws Exception {
+    Expression parseExponent() throws UnexpectedTokenException {
+        Expression node = parseUnaryExpression();
+
+        while (peek().type == TokenType.POWER) {
+            Token tok = consume(); // **
+            Expression right = parseUnaryExpression();
+            node = new BinaryExpression(node, right, BinaryOperator.POWER);
+        }
+
+        return node;
+    }
+
+    Expression parseUnaryExpression() throws UnexpectedTokenException {
         if (peek().type == TokenType.BANG || peek().type == TokenType.MINUS) {
             Token cur = consume(new TokenType[]{TokenType.BANG, TokenType.MINUS});
             Expression right = parseUnaryExpression(); // recurse for chains like !!x or -(-x)
             return switch (cur.type) {
                 case BANG -> new UnaryExpression(right, UnaryOperator.NOT);
                 case MINUS -> new UnaryExpression(right, UnaryOperator.NEGATE);
-                default -> throw new Exception("Unsupported unary operator");
+                default -> throw new UnexpectedTokenException(cur, new TokenType[]{TokenType.BANG, TokenType.MINUS});
             };
         }
 
@@ -85,7 +97,7 @@ public class Parser {
     }
 
 
-    Expression parsePrimary() throws Exception {
+    Expression parsePrimary() throws UnexpectedTokenException {
         Token cur = peek();
 
         switch (cur.type) {
@@ -112,7 +124,7 @@ public class Parser {
     }
 
 
-    Expression parseTerm() throws Exception {
+    Expression parseTerm() throws UnexpectedTokenException {
         Expression node = parseFactor();
 
         while (peek().type == TokenType.STAR || peek().type == TokenType.SLASH) {
@@ -124,7 +136,7 @@ public class Parser {
         return node;
     }
 
-    Expression parseAdditive() throws Exception {
+    Expression parseAdditive() throws UnexpectedTokenException {
         if (peek().type == TokenType.LEFT_BRACKET)
             return parseArray();
 
@@ -139,7 +151,7 @@ public class Parser {
         return node;
     }
 
-    Expression parseLogicalOr() throws Exception {
+    Expression parseLogicalOr() throws UnexpectedTokenException {
         Expression expr = parseLogicalAnd();
         while (peek().type == TokenType.OR) {
             Token tok = consume();
@@ -149,11 +161,11 @@ public class Parser {
         return expr;
     }
 
-    Expression parseExpression() throws Exception {
+    Expression parseExpression() throws UnexpectedTokenException {
         return parseLogicalOr();
     }
 
-    Expression parseLogicalAnd() throws Exception {
+    Expression parseLogicalAnd() throws UnexpectedTokenException {
         Expression expr = parseEquality();
         while (peek().type == TokenType.AND) {
             Token tok = consume();
@@ -163,7 +175,7 @@ public class Parser {
         return expr;
     }
 
-    Expression parseEquality() throws Exception {
+    Expression parseEquality() throws UnexpectedTokenException {
         Expression expr = parseComparison();
         while (peek().type == TokenType.EQUAL_EQUAL || peek().type == TokenType.BANG_EQUAL) {
             Token tok = consume();
@@ -174,7 +186,7 @@ public class Parser {
         return expr;
     }
 
-    Expression parseComparison() throws Exception {
+    Expression parseComparison() throws UnexpectedTokenException {
         Expression expr = parseAdditive();
         while (Set.of(TokenType.LESS, TokenType.LESS_EQUAL, TokenType.GREATER, TokenType.GREATER_EQUAL).contains(peek().type)) {
             Token tok = consume();
@@ -184,7 +196,7 @@ public class Parser {
                 case LESS_EQUAL -> op = BinaryOperator.LESS_EQUAL;
                 case GREATER -> op = BinaryOperator.GREATER;
                 case GREATER_EQUAL -> op = BinaryOperator.GREATER_EQUAL;
-                default -> throw new Exception("Unexpected comparison operator.");
+                default -> throw new UnexpectedTokenException(tok, new TokenType[]{TokenType.LESS, TokenType.LESS_EQUAL, TokenType.GREATER, TokenType.GREATER_EQUAL});
             }
             Expression right = parseAdditive();
             expr = new BinaryExpression(expr, right, op);
@@ -192,12 +204,12 @@ public class Parser {
         return expr;
     }
 
-    Identifier parseIdentifier() throws Exception {
+    Identifier parseIdentifier() throws UnexpectedTokenException {
         Token cur = consume(new TokenType[]{TokenType.IDENTIFIER});
         return new Identifier((String) cur.lex);
     }
 
-    Array parseArray() throws Exception {
+    Array parseArray() throws UnexpectedTokenException {
         consume(new TokenType[]{TokenType.LEFT_BRACKET}); // [
 
         Array arr = new Array();
@@ -213,7 +225,7 @@ public class Parser {
         return arr;
     }
 
-    ValueProducingStatement parseConditional() throws Exception {
+    ValueProducingStatement parseConditional() throws UnexpectedTokenException {
         consume(new TokenType[]{TokenType.IF}); // if
         consume(new TokenType[]{TokenType.LEFT_PAREN}); // (
         Expression cond = parseExpression(); // conditional
@@ -230,12 +242,11 @@ public class Parser {
         return new Conditional(cond, posCond, negCond);
     }
 
-    ValueProducingStatement parseValueProducingStatement() throws Exception {
+    ValueProducingStatement parseValueProducingStatement() throws UnexpectedTokenException {
         switch (peek().type) {
             case TokenType.LEFT_BRACE:
                 consume(new TokenType[]{TokenType.LEFT_BRACE}); // {
                 BlockStatement blockStmt = new BlockStatement();
-                // Code here
                 while (peek().type != TokenType.RIGHT_BRACE) {
                     Statement s = parseStatement(true);
                     blockStmt.addStatement(s);
@@ -248,7 +259,7 @@ public class Parser {
                 } else if (peekNext().type == TokenType.LEFT_PAREN) {
                     return parseFunctionCall();
                 }
-                return parseIdentifier();
+                return parseExpression();
             case TokenType.IF:
                 return parseConditional();
             default:
@@ -256,20 +267,20 @@ public class Parser {
         }
     }
 
-    PrintStatement parsePrintStatement() throws Exception {
+    PrintStatement parsePrintStatement() throws UnexpectedTokenException {
         Token _ = consume(new TokenType[]{TokenType.PRINT}); // consume print
         ValueProducingStatement expression = parseValueProducingStatement();
         return new PrintStatement(expression);
     }
 
-    AssignmentStatement parseAssignment() throws Exception {
+    AssignmentStatement parseAssignment() throws UnexpectedTokenException {
         Identifier id = parseIdentifier();
         Token _ = consume(new TokenType[]{TokenType.EQUAL});
         ValueProducingStatement right = parseValueProducingStatement();
         return new AssignmentStatement(id, right);
     }
 
-    FunctionCall parseFunctionCall() throws Exception {
+    FunctionCall parseFunctionCall() throws UnexpectedTokenException {
         Identifier name = parseIdentifier();
         consume(new TokenType[]{TokenType.LEFT_PAREN}); // (
 
@@ -286,7 +297,7 @@ public class Parser {
         return new FunctionCall(name, parameters);
     }
 
-    Function parseFunction() throws Exception {
+    Function parseFunction() throws UnexpectedTokenException {
         consume(new TokenType[]{TokenType.FN}); // fn
 
         Identifier name = parseIdentifier();
@@ -320,39 +331,34 @@ public class Parser {
         consume(); // "file"
     }
 
-    Statement parseStatement(boolean vp) throws Exception {
-            switch (peek().type) {
-                case FN:
-                    return parseFunction();
-                case TokenType.BANG:
-                    if (peekNext().type == TokenType.IDENTIFIER && peekNext().lex.equals("include")) {
-                        parseImportStatement();
-                        return null;
-                    }
-                case TokenType.PRINT:
-                    return parsePrintStatement();
-                case TokenType.IDENTIFIER:
-                    if (peekNext().type == TokenType.LEFT_PAREN) {
-                        return parseFunctionCall();
-                    }
-                default:
-                    return parseValueProducingStatement();
-            }
+    Statement parseStatement(boolean vp) throws UnexpectedTokenException {
+        switch (peek().type) {
+            case FN:
+                return parseFunction();
+            case TokenType.BANG:
+                if (peekNext().type == TokenType.IDENTIFIER && peekNext().lex.equals("include")) {
+                    parseImportStatement();
+                    return null;
+                }
+            case TokenType.PRINT:
+                return parsePrintStatement();
+            case TokenType.IDENTIFIER:
+                if (peekNext().type == TokenType.LEFT_PAREN) {
+                    return parseFunctionCall();
+                }
+            default:
+                return parseValueProducingStatement();
+        }
     }
 
-    public Program parseTokens(){
-        try {
-            while (!atEOF()) {
-                Statement s = parseStatement(false);
-                if (s != null) {
-                    program.addStatement(s);
-                }
+    public Program parseTokens() throws UnexpectedTokenException {
+        while (!atEOF()) {
+            Statement s = parseStatement(false);
+            if (s != null) {
+                program.addStatement(s);
             }
-            return program;
-        } catch (Exception e) {
-            System.out.println(this.program);
-            throw new RuntimeException(e);
         }
+        return program;
     }
 
     private boolean atEOF() {

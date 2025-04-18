@@ -13,7 +13,7 @@ public class Environment {
         this.outer = outer;
     }
 
-    Environment() {}
+    public Environment() {}
 
     public Object get(String name) {
         Object d = data.get(name);
@@ -38,8 +38,7 @@ public class Environment {
 
     public void addFunction(String name, Function func) {
         if (getFunction(name) != null) {
-            // TODO: error here
-            return;
+            throw new RuntimeException("Duplicate function: " + name);
         }
 
         this.functions.put(name, func);

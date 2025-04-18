@@ -20,6 +20,7 @@ public class BinaryExpression extends Expression {
         return "BinaryExpression{" + left.toString() + " " + operator.toString() + " " + right.toString() +"}";
     }
 
+    @Override
     public void execute(Environment env) {
         left.execute(env);
         right.execute(env);
@@ -40,7 +41,7 @@ public class BinaryExpression extends Expression {
         }
 
         if (!(leftVal instanceof BigDecimal) || !(rightVal instanceof BigDecimal)) {
-            return;
+            throw new RuntimeException("Cannot compare or manipulate " + leftVal.getClass() + " and " + rightVal.getClass());
         }
 
         BigDecimal a = (BigDecimal) leftVal;
@@ -75,6 +76,8 @@ public class BinaryExpression extends Expression {
                     value = a.divide(b);
                 }
                 break;
+            case POWER:
+                throw new RuntimeException("POWER operation not supported.");
         }
     }
 }

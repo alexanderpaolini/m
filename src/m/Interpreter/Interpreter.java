@@ -2,8 +2,11 @@ package m.Interpreter;
 
 import m.AST.Program;
 import m.AST.Statement;
+import m.Exceptions.RuntimeException;
+import m.Exceptions.SilentException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Interpreter {
     Program program;
@@ -14,24 +17,14 @@ public class Interpreter {
         this.program = prog;
     }
 
-    public void execute() {
-        this.environment = new Environment();
+    public void execute(Environment environment) throws RuntimeException {
+        this.environment = Objects.requireNonNullElseGet(environment, Environment::new);
         run();
     }
 
-    public void execute(Environment environment) {
-        this.environment = environment;
-        run();
-    }
-
-    private void run() {
+    private void run() throws RuntimeException {
         ArrayList<Statement> statements = program.getStatements();
-        while (pc < program.getStatements().size()) {
-            Statement cur = statements.get(pc);
-
-            cur.execute(environment);
-
-            pc++;
-        }
+        while (pc < program.getStatements().size())
+            statements.get(pc++).execute(environment);
     }
 }
