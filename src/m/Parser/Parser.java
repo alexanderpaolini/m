@@ -212,10 +212,23 @@ public class Parser {
         );
     }
 
+    void parseImportStatement() {
+        // parse import statement
+        // imports the functions from the file
+        consume(); // !
+        consume(); // includes
+        consume(); // "file"
+    }
+
     Statement parseStatement(boolean vp) throws Exception {
             switch (peek().type) {
                 case FN:
                     return parseFunction();
+                case TokenType.BANG:
+                    if (peekNext().type == TokenType.IDENTIFIER && peekNext().lex.equals("include")) {
+                        parseImportStatement();
+                        return null;
+                    }
                 case TokenType.PRINT:
                     return parsePrintStatement();
                 case TokenType.IDENTIFIER:
@@ -231,7 +244,9 @@ public class Parser {
         try {
             while (!atEOF()) {
                 Statement s = parseStatement(false);
-                program.addStatement(s);
+                if (s != null) {
+                    program.addStatement(s);
+                }
             }
             return program;
         } catch (Exception e) {

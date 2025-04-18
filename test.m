@@ -1,3 +1,5 @@
+!include "std/trig.m"
+
 # This is a comment
 fn g(): {
   g()
