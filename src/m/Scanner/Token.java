@@ -1,10 +1,10 @@
-package m;
+package m.Scanner;
 
-class Token {
-    final TokenType type;
-    final String lex;
-    final Object literal;
-    final int line;
+public class Token {
+    public final TokenType type;
+    public final String lex;
+    public final Object literal;
+    public final int line;
 
     Token(TokenType type, String lex, Object literal, int line) {
         this.type = type;
@@ -16,6 +16,4 @@ class Token {
     public String toString() {
         return type + " " + lex + " " + literal;
     }
-
-
 }
