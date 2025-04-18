@@ -1,0 +1,5 @@
+package m.AST;
+
+public enum BinaryOperator {
+    PLUS, MINUS, MULTIPLY, DIVIDE, AND, OR, LESS, LESS_EQUAL, GREATER, GREATER_EQUAL, EQUAL, NOT_EQUAL;
+}

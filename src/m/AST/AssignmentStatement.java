@@ -1,4 +1,6 @@
-package m.Parser;
+package m.AST;
+
+import m.Interpreter.Environment;
 
 public class AssignmentStatement extends ValueProducingStatement {
     private final ValueProducingStatement right;
@@ -12,5 +14,14 @@ public class AssignmentStatement extends ValueProducingStatement {
     @Override
     public String toString() {
         return "AssignmentStatement{" + identifier + ", " + right + "}";
+    }
+
+    public void execute(Environment env) {
+        this.right.execute(env);
+
+        env.set(
+                this.identifier.name,
+                this.right.getValue()
+        );
     }
 }

@@ -1,4 +1,6 @@
-package m.Parser;
+package m.AST;
+
+import m.Interpreter.Environment;
 
 import java.util.ArrayList;
 
@@ -27,5 +29,10 @@ public class Function extends Statement {
         sb.append("\n");
         sb.append("}\n");
         return sb.toString();
+    }
+
+    @Override
+    public void execute(Environment env) {
+        env.addFunction(this.name.name, this);
     }
 }

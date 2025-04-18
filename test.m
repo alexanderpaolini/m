@@ -2,10 +2,15 @@
 
 # This is a comment
 fn g(): {
-  g()
   1
+}
+
+if (x == d) {
+    >> 1
+} else {
+    >> 2
 }
 
 a = g()
 
-b = [a, b, c, [a, b, c]]
+>> 1 + g()

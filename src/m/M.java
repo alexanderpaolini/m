@@ -1,7 +1,7 @@
 package m;
 
-import m.Parser.Parser;
-import m.Parser.Program;
+import m.Interpreter.Interpreter;
+import m.AST.Program;
 import m.Scanner.Token;
 
 import java.io.*; //BufferedReader, IOException, InputStreamReader
@@ -60,6 +60,9 @@ public class M {
 
         if (SHOW_AST)
             System.out.println(prog);
+
+        Interpreter interpreter = new Interpreter(prog);
+        interpreter.execute();
     }
 
     public static void error(int line, String message) {
