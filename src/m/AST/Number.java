@@ -1,10 +1,10 @@
-package m.Parser;
+package m.AST;
+
+import m.Interpreter.Environment;
 
 import java.math.BigDecimal;
 
 public class Number extends Expression {
-    BigDecimal value;
-
     public Number(BigDecimal value) {
         this.value = value;
     }
@@ -13,4 +13,7 @@ public class Number extends Expression {
     public String toString() {
         return this.value.toString();
     }
+
+    @Override
+    public void execute(Environment env) {/* Not Necessary */}
 }

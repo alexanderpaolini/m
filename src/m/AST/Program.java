@@ -1,4 +1,4 @@
-package m.Parser;
+package m.AST;
 
 import java.util.*;
 
@@ -6,7 +6,7 @@ import java.util.*;
  * Program class. Holds list of Nodes
  */
 public class Program {
-    List<Statement> statements = new ArrayList<>();
+    ArrayList<Statement> statements = new ArrayList<>();
 
     public void addStatement (Statement s) {
         statements.add(s);
@@ -15,13 +15,15 @@ public class Program {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Program{");
+        sb.append("Program{\n");
         for (Statement s : statements) {
-            sb.append("\n");
-            sb.append("  ").append(s);
+            sb.append(s.toString().indent(2));
         }
-        sb.append("\n");
         sb.append("}");
         return sb.toString();
+    }
+
+    public ArrayList<Statement> getStatements() {
+        return statements;
     }
 }

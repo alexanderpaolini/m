@@ -5,16 +5,16 @@ import m.Scanner.TokenType;
 
 import java.util.Arrays;
 
-public class UnexpectedTokenException extends RuntimeException {
+public class UnexpectedTokenException extends Exception {
     public UnexpectedTokenException(Token foundToken) {
-        super("[line " + foundToken.line + "] " + "Unexpected token: " + foundToken.type);
+        super("Unexpected Token: \"" + foundToken.lex + "\"");
     }
 
     public UnexpectedTokenException(Token foundToken, TokenType expectedTokenType) {
-        super("[line " + foundToken.line + "] " + "Unexpected token: " + foundToken.type + " Expected: " + expectedTokenType);
+        super("Unexpected Token: \"" + foundToken.lex + "\" Expected: " + expectedTokenType);
     }
 
     public UnexpectedTokenException(Token foundToken, TokenType[] expectedTokenTypes) {
-        super("[line " + foundToken.line + "] " + "Unexpected token: " + foundToken.type + " Expected: " + Arrays.toString(expectedTokenTypes));
+        super("Unexpected Token: \"" + foundToken.lex + "\" Expected: " + Arrays.toString(expectedTokenTypes));
     }
 }

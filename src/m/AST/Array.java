@@ -1,4 +1,6 @@
-package m.Parser;
+package m.AST;
+
+import m.Interpreter.Environment;
 
 import java.util.ArrayList;
 
@@ -28,5 +30,15 @@ public class Array extends Expression {
         sb.append(']');
 
         return sb.toString();
+    }
+
+    @Override
+    public void execute(Environment env) {
+        value = new ArrayList<Object>();
+
+        for (Expression e : elements) {
+            e.execute(env);
+            ((ArrayList) value).add(e.getValue());
+        }
     }
 }
