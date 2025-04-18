@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2aadc809-5904-4ebe-a30c-8cc5347f73b7" name="Changes" comment="feat: add basic expression parsing">
+      <change afterPath="$PROJECT_DIR$/demo/ex5.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;alexanderpaolini&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/alexanderpaolini/m&quot;,
+    &quot;accountId&quot;: &quot;875de20b-5c74-43c1-b40e-08eca14136c6&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2sgieJjlSlOu3lbxtud2UC6O9K3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Example 1.executor": "Run",
+    "Application.Example 2.executor": "Run",
+    "Application.Example 3.executor": "Run",
+    "Application.Example 4.executor": "Run",
+    "Application.Example 5.executor": "Run",
+    "Application.M.executor": "Run",
+    "Application.M1.executor": "Run",
+    "Application.M2.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.REPL.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "demo",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="m" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Example 5">
+    <configuration name="Example 1" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="m.M" />
+      <module name="m" />
+      <option name="PROGRAM_PARAMETERS" value="./demo/ex1.m --ast --tokens" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Example 2" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="m.M" />
+      <module name="m" />
+      <option name="PROGRAM_PARAMETERS" value="./demo/ex2.m --ast" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Example 3" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="m.M" />
+      <module name="m" />
+      <option name="PROGRAM_PARAMETERS" value="./demo/ex3.m --ast" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Example 4" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="m.M" />
+      <module name="m" />
+      <option name="PROGRAM_PARAMETERS" value="./demo/ex4.m --ast" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Example 5" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="m.M" />
+      <module name="m" />
+      <option name="PROGRAM_PARAMETERS" value="./demo/ex5.m" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="REPL" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="m.M" />
+      <module name="m" />
+      <option name="PROGRAM_PARAMETERS" value="--ast" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.REPL" />
+      <item itemvalue="Application.Example 1" />
+      <item itemvalue="Application.Example 2" />
+      <item itemvalue="Application.Example 3" />
+      <item itemvalue="Application.Example 4" />
+      <item itemvalue="Application.Example 5" />
+    </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2aadc809-5904-4ebe-a30c-8cc5347f73b7" name="Changes" comment="" />
+      <created>1738883714832</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1738883714832</updated>
+      <workItem from="1738883716058" duration="10006000" />
+      <workItem from="1740026603981" duration="18677000" />
+      <workItem from="1740450162667" duration="13445000" />
+      <workItem from="1740778291854" duration="9096000" />
+      <workItem from="1741223281950" duration="1518000" />
+      <workItem from="1742094868535" duration="9119000" />
+      <workItem from="1742857429470" duration="598000" />
+      <workItem from="1743182712606" duration="11723000" />
+      <workItem from="1744736191210" duration="46000" />
+      <workItem from="1744938427391" duration="19504000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat: add basic expression parsing">
+      <option name="closed" value="true" />
+      <created>1740180778655</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1740180778655</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.m" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: add basic expression parsing" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add basic expression parsing" />
+  </component>
+</project>
