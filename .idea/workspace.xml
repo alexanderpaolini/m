@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2aadc809-5904-4ebe-a30c-8cc5347f73b7" name="Changes" comment="feat: add basic expression parsing">
-      <change afterPath="$PROJECT_DIR$/demo/ex5.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +78,7 @@
       <recent name="m" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Example 5">
+  <component name="RunManager" selected="Application.Example 1">
     <configuration name="Example 1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="m.M" />
       <module name="m" />
@@ -162,7 +161,7 @@
       <workItem from="1742857429470" duration="598000" />
       <workItem from="1743182712606" duration="11723000" />
       <workItem from="1744736191210" duration="46000" />
-      <workItem from="1744938427391" duration="19504000" />
+      <workItem from="1744938427391" duration="21170000" />
     </task>
     <task id="LOCAL-00001" summary="feat: add basic expression parsing">
       <option name="closed" value="true" />
